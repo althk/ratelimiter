@@ -43,9 +43,8 @@ func buildLimiter(algo LimiterAlgo, storeType LimiterStore) types.Limiter {
 	return l
 }
 
-// LocalLimiter wraps the given handler with an in-memory local rate limiter by client IP.
-// It defaults to 1 request per second per IP as the limit. It also removes from cache clients
-// that have not been seen for more than 1 minute.
+// WithLimiter wraps the given handler with a rate limiter.
+// The rate limiter algorithm and the store type can be configured from the available options.
 func WithLimiter(next func(w http.ResponseWriter, r *http.Request), algo LimiterAlgo, storeType LimiterStore) http.Handler {
 	limiter := buildLimiter(algo, storeType)
 

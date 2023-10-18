@@ -14,7 +14,7 @@ func ping(w http.ResponseWriter, _ *http.Request) {
 }
 
 func main() {
-	// wrap the ping handler with a local limiter
+	// wrap the ping handler with a redis backed sliding window limiter
 	// this limiter is configured to 1 request per sec per IP by default
 	limitedPing := rlhttp.WithLimiter(ping, rlhttp.SlidingWindow, rlhttp.Redis)
 

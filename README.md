@@ -33,6 +33,8 @@ See [example/main.go](example/main.go) for hints.
 
 ### TODOs
 
-- add TLS support for Redis store.
+- add TLS support for Redis store
 - make the error message configurable (currently it returns a 429 status code with "Quota Exceeded" as the message)
 - add GRPC middleware
+- allow fetching limits per IP from a config source and use custom limits per client,
+  and fall back to the global default limit if a client does not have a custom rate limit

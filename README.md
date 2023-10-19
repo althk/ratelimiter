@@ -1,5 +1,7 @@
 ## Rate Limiter
 
+![Rate Limiter](https://github.com/althk/ratelimiter/actions/workflows/ci-main.yml/badge.svg)
+
 Provides the following rate limiters:
 
 - [Token Bucket](https://en.wikipedia.org/wiki/Token_bucket)

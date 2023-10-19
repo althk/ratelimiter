@@ -11,7 +11,7 @@ import (
 func TestTokenBucket_Allow(t *testing.T) {
 	type fields struct {
 		refillRate float32
-		cap        int32
+		cap        int64
 	}
 	tests := []struct {
 		name   string
@@ -42,7 +42,7 @@ func TestTokenBucket_Allow(t *testing.T) {
 func TestTokenBucket_AllowN(t *testing.T) {
 	type fields struct {
 		refillRate float32
-		cap        int32
+		cap        int64
 	}
 	type args struct {
 		tokens int64

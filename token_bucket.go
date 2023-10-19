@@ -15,7 +15,7 @@ type tokenBucket struct {
 	RefillRate float32
 
 	// Cap is the max capacity of the bucket. It is also the max burst rate.
-	Cap int32
+	Cap int64
 
 	// Available is the number of tokens currently Available in the bucket.
 	Available int64
@@ -50,7 +50,7 @@ type TBL struct {
 	refillRate float32
 
 	// cap is the max capacity of the bucket. It is also the max burst rate.
-	cap int32
+	cap int64
 
 	s types.Store
 
@@ -89,7 +89,7 @@ func (tbl *TBL) AllowN(ctx context.Context, id string, t time.Time, n int64) boo
 // NewTBL returns a new TBL instance which implements the token bucket algorithm
 // with the given rate and capacity.
 // The new bucket starts with zero Available tokens.
-func NewTBL(rate float32, cap int32, s types.Store) *TBL {
+func NewTBL(rate float32, cap int64, s types.Store) *TBL {
 	return &TBL{
 		refillRate: rate,
 		cap:        cap,
@@ -98,7 +98,7 @@ func NewTBL(rate float32, cap int32, s types.Store) *TBL {
 	}
 }
 
-func newTokenBucket(refillRate float32, cap int32, initTime time.Time) *tokenBucket {
+func newTokenBucket(refillRate float32, cap int64, initTime time.Time) *tokenBucket {
 	return &tokenBucket{
 		RefillRate:     refillRate,
 		Cap:            cap,

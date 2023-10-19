@@ -5,9 +5,7 @@
 Provides the following rate limiters:
 
 - [Token Bucket](https://en.wikipedia.org/wiki/Token_bucket)
-  - Currently, the default limit is set to 1 request per second per IP.
 - [Sliding Window Counter](https://blog.cloudflare.com/counting-things-a-lot-of-different-things/)
-  - Currently, the default limit is set to 1 request per second per IP.
 
 The package also provides the following:
 
@@ -27,9 +25,14 @@ The package also provides the following:
   - a pluggable http middleware to make it easy for using the rate limiters.
   - see [example/](example) directory for usage.
 
+### configuration
+
+The rate limiters can be configured via the `LimiterOptions` type.
+See [example/main.go](example/main.go) for hints.
+
+
 ### TODOs
 
-- make the rate limiters configurable (rates, limits, etc.)
 - add TLS support for Redis store.
 - make the error message configurable (currently it returns a 429 status code with "Quota Exceeded" as the message)
 - add GRPC middleware

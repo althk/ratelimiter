@@ -1,9 +1,12 @@
 package main
 
 import (
+	"github.com/althk/ratelimiter"
 	rlhttp "github.com/althk/ratelimiter/http"
+	"github.com/redis/go-redis/v9"
 	"log"
 	"net/http"
+	"time"
 )
 
 // ping simply responds with a "pong" plain text response for all requests
@@ -15,8 +18,27 @@ func ping(w http.ResponseWriter, _ *http.Request) {
 
 func main() {
 	// wrap the ping handler with a redis backed sliding window limiter
-	// this limiter is configured to 1 request per sec per IP by default
-	limitedPing := rlhttp.WithLimiter(ping, rlhttp.SlidingWindow, rlhttp.Redis)
+	// configure the limiter to 1 request per sec per IP
+	opts := &ratelimiter.LimiterOptions{
+		// rate limiting algorithm
+		Algo: ratelimiter.SlidingWindow,
+
+		// the storage backend for the rate limiter
+		StoreType: ratelimiter.Redis,
+
+		// The max burst rate, or limit per window/bucket
+		ReqLimit: 1,
+
+		// TokenBucketRate is needed when Algo is set to ratelimiter.TokenBucket
+		// TokenBucketRate:       0,
+
+		// SlidingWindowDuration is needed when Algo is set to ratelimiter.SlidingWindow
+		SlidingWindowDuration: time.Second,
+
+		// RedisOpts is needed when StoreType is ratelimiter.Redis
+		RedisOpts: &redis.Options{Addr: "localhost:6379"},
+	}
+	limitedPing := rlhttp.WithLimiter(ping, opts)
 
 	http.HandleFunc("/unlimitedping", ping)
 
